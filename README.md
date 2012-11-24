@@ -1,4 +1,4 @@
 webmoney
 ========
 
-Client for WebMoney payment system
+WebMoney payment system client
