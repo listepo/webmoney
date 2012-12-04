@@ -1,0 +1,20 @@
+{
+	"name": "webmoney",
+	"version": "0.1.6",
+	"description": "WebMoney payment system client",
+	"keywords": [
+		"webmoney",
+		"money"
+	],
+	"author": {
+		"name": "Vladimir Andreev",
+		"email": "volodya@netfolder.ru"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tucan/webmoney.git"
+	},
+	"dependencies": {
+		"xml-objects": ">=0.1"
+	}
+}
