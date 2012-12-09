@@ -1,4 +1,3 @@
-webmoney
-========
+# WebMoney
 
-WebMoney payment system client
+_webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
