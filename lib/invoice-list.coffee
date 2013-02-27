@@ -8,11 +8,11 @@
 
 # Required modules
 
-List = require('./list')
+BaseList = require('./base-list')
 
 # InvoiceList class
 
-class InvoiceList extends List
+class InvoiceList extends BaseList
 	#
 
 	toArray: (callback) ->

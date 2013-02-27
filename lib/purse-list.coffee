@@ -8,11 +8,11 @@
 
 # Required modules
 
-List = require('./list')
+BaseList = require('./base-list')
 
 # PurseList class
 
-class PurseList extends List
+class PurseList extends BaseList
 	#
 
 	toArray: (callback) ->

@@ -14,9 +14,8 @@ exports.Key = require('./lib/key')
 
 exports.WMID = require('./lib/wmid')
 
-# List and its descendants
+# BaseList descendants
 
-exports.List = require('./lib/list')
 exports.PurseList = require('./lib/purse-list')
 exports.OperationList = require('./lib/operation-list')
 exports.InvoiceList = require('./lib/invoice-list')

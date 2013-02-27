@@ -8,7 +8,7 @@
 
 # BaseList class
 
-class List
+class BaseList
 	# Object constructor
 
 	constructor: (@service) ->
@@ -36,4 +36,4 @@ class List
 
 # Exported objects
 
-module.exports = List
+module.exports = BaseList

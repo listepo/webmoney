@@ -8,11 +8,11 @@
 
 # Required modules
 
-List = require('./list')
+BaseList = require('./base-list')
 
 # OperationList class
 
-class OperationList extends List
+class OperationList extends BaseList
 	#
 
 	toArray: (callback) ->
