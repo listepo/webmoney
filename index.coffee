@@ -8,5 +8,15 @@
 
 # Exported objects
 
-exports.Client = require('./lib/client')
-exports.Signer = require('./lib/signer')
+exports.Classic = require('./lib/classic')
+exports.Light = require('./lib/light')
+exports.Key = require('./lib/key')
+
+exports.WMID = require('./lib/wmid')
+
+# List and its descendants
+
+exports.List = require('./lib/list')
+exports.PurseList = require('./lib/purse-list')
+exports.OperationList = require('./lib/operation-list')
+exports.InvoiceList = require('./lib/invoice-list')
