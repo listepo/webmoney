@@ -1,4 +1,4 @@
-# Purse List
+# Webmoney purse list
 #
 # March, 2013 year
 #
@@ -10,7 +10,7 @@
 
 List = require('./list')
 
-# Purse List
+# PurseList class
 
 class PurseList extends List
 	#

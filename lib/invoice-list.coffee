@@ -1,4 +1,4 @@
-# Invoice List
+# Webmoney invoice list
 #
 # March, 2013 year
 #
@@ -10,7 +10,7 @@
 
 List = require('./list')
 
-# Invoice List
+# InvoiceList class
 
 class InvoiceList extends List
 	#

@@ -1,4 +1,4 @@
-# Operation List
+# Webmoney operation list
 #
 # March, 2013 year
 #
@@ -10,7 +10,7 @@
 
 List = require('./list')
 
-# Operation List
+# OperationList class
 
 class OperationList extends List
 	#
