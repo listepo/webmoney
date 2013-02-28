@@ -1,4 +1,4 @@
-# Webmoney purse list
+# WebMoney purse list
 #
 # March, 2013 year
 #
@@ -10,7 +10,7 @@
 
 BaseList = require('./base-list')
 
-# PurseList class
+# Purse list
 
 class PurseList extends BaseList
 	#

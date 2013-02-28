@@ -13,64 +13,96 @@ crypto = require('crypto')
 
 # Constants
 
-HEADER_SIZE = 24
+HEADER_SIZE = 24        # Header size
 
-# WebMoney clasic key
+FLAG_START = 2          # Flag start position in header
+CRC_START = 4           # CRC start position in header
+CRC_END = 20            # CRC end position in header
+LENGTH_START = 20       # Length start position in header
+
+KEY_SIZE = 140          # Key extected size
+EXPONENT_START = 6      # Exponenta start position in keys
+
+# Classic key
 
 class Key
-	# Sets given keys
-	
-	setKeys: (@modulus, @exponent) -> @
-	
+	# Decrypts keys using wmid and password
+
+	@decryptKeys: (keys, wmid, password) ->
+		# Digest to be used as key during decryption
+		
+		digest = new Buffer(crypto.createHash('md4').update(wmid).update(password).digest(), 'binary')
+
+		# Make simple XOR decryption
+
+		keys[index + 6] = octet ^ digest[index % digest.length] for octet, index in keys.slice(6)
+
+		@
+
+	# Checks data for integrity
+
+	@checkData: (header, keys) ->
+		# Save reference CRC
+
+		crc = header.toString('hex', CRC_START, CRC_END)
+
+		# Fill required fields with zeros
+
+		header.fill(0, FLAG_START, CRC_END)
+		
+		# Calculate CRC
+
+		crypto.createHash('md4').update(header).update(keys).digest('hex') is crc
+
+	# Parses buffer with keys
+
+	@parseKeys: (keys) ->
+		# Extrack exponent and modulus from decrypted data
+
+		exponent = keys.slice(EXPONENT_START, EXPONENT_START + keys.readUInt16LE(4))
+		modulus = keys.slice(EXPONENT_START + exponent.length, EXPONENT_START + exponent.length + keys.readUInt16LE(EXPONENT_START + exponent.length))
+
+		# Returns new key object
+
+		new Key(exponent, modulus)
+
 	# Loads keys from file
 	
-	load: (wmid, fileName, password) ->
-		# Opens file for reading
+	@fromFile: (fileName, wmid, password) ->
+		# Open file for reading
 
 		file = fs.openSync(fileName, 'r')
 
-		# Reads data header from file
+		# Read header from file
 
 		header = new Buffer(HEADER_SIZE)
 		fs.readSync(file, header, 0, header.length)
-		
-		#
-		
-		crc = header.slice(4, 20)
-		length = header.readUInt32LE(20)
 
-		# Reads data itself from file
+		# Read keys from file
 
-		data = new Buffer(length)
-		fs.readSync(file, data, 0, data.length)
+		keys = new Buffer(header.readUInt32LE(LENGTH_START))
+		fs.readSync(file, keys, 0, keys.length)
 		
-		# Closes file
+		# Close file
 		
 		fs.closeSync(file)
 
-		# Header and decrypted data
+		# Decrypt keys
 
-		result = new Buffer(24)
+		@decryptKeys(keys, wmid, password)
 
-		keys = @decryptKeys(wmid, password, data)
+		# Check keys for integrity
 
-		# Copies exponent to object property
-		
-		@exponent = new Buffer(keys.readUInt16LE(4))
-		@modulus = new Buffer(keys.readUInt16LE(6 + @exponent.length))
-		
-		keys.copy(@exponent, 0, 6, 6 + @exponent.length)
-		keys.copy(@modulus, 0, position, position + @modulus.length)
+		@checkData(header, keys)
 
-		@
+		# Returns key object with parsed keys
+
+		@parseKeys(keys)
 	
-	# Decrypt keys using wmid and password
+	# Object constructor
 
-	decryptKeys: (wmid, password, data) ->
-		digest = new Buffer(crypto.createHash('md4').update(wmid).update(password).digest(), 'binary')
-
-		new Buffer(octet ^ digest[index % digest.length] for octet, index in data)
+	constructor: (@exponent, @modulus) ->
 
 # Exported objects
 
-exports = module.exports = Key
+module.exports = Key

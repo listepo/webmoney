@@ -1,4 +1,4 @@
-# Webmoney invoice list
+# WebMoney invoice list
 #
 # March, 2013 year
 #
@@ -10,7 +10,7 @@
 
 BaseList = require('./base-list')
 
-# InvoiceList class
+# Invoice list
 
 class InvoiceList extends BaseList
 	#

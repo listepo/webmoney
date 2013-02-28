@@ -1,4 +1,4 @@
-# Classes for dealing with WebMoney
+# WebMoney classes
 #
 # November, 2012 year
 #
@@ -10,9 +10,11 @@
 
 exports.Classic = require('./lib/classic')
 exports.Light = require('./lib/light')
-exports.Key = require('./lib/key')
-
 exports.WMID = require('./lib/wmid')
+
+# Utility classes
+
+exports.Key = require('./lib/key')
 
 # BaseList descendants
 

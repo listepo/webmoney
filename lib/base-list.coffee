@@ -1,4 +1,4 @@
-# Webmoney base list
+# WebMoney base list
 #
 # March, 2013 year
 #
@@ -6,7 +6,7 @@
 #
 # E-Mail: volodya@netfolder.ru
 
-# BaseList class
+# Base list
 
 class BaseList
 	# Object constructor
