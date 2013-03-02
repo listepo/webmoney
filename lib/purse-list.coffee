@@ -25,6 +25,10 @@ class PurseList extends LazyList
 
 	operations: () -> new LazyList(@service)
 
+	# Retrieve list with invoices relevant to purses in the list
+
+	invoices: () -> new LazyList(@service)
+
 # Exported objects
 
 module.exports = PurseList
