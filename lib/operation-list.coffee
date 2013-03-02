@@ -8,15 +8,18 @@
 
 # Required modules
 
-BaseList = require('./base-list')
+LazyList = require('./lazy-list')
 
 # Operation list
 
-class OperationList extends BaseList
-	#
+class OperationList extends LazyList
+	# Retrieve information about operations in the list
 
-	toArray: (callback) ->
-		@
+	info: (callback) -> @
+
+	# Refund money to senders for selected operations
+
+	refund: (callback) -> @
 
 # Exported objects
 

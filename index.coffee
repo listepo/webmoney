@@ -10,13 +10,18 @@
 
 exports.Classic = require('./lib/classic')
 exports.Light = require('./lib/light')
-exports.WMID = require('./lib/wmid')
 
 # Utility classes
 
 exports.Key = require('./lib/key')
 
-# BaseList descendants
+#
+
+exports.WMID = require('./lib/wmid')
+exports.Payment = require('./lib/payment')
+exports.Invoice = require('./lib/invoice')
+
+# LazyList descendants
 
 exports.PurseList = require('./lib/purse-list')
 exports.OperationList = require('./lib/operation-list')

@@ -8,15 +8,18 @@
 
 # Required modules
 
-BaseList = require('./base-list')
+LazyList = require('./lazy-list')
 
 # Invoice list
 
-class InvoiceList extends BaseList
-	#
+class InvoiceList extends LazyList
+	# Retrieve information about invoices in the list
 
-	toArray: (callback) ->
-		@
+	info: (callback) -> @
+
+	# Pay selected invoices
+
+	pay: () -> @
 
 # Exported objects
 

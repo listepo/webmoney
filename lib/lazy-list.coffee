@@ -1,4 +1,4 @@
-# WebMoney base list
+# WebMoney lazy list
 #
 # March, 2013 year
 #
@@ -6,9 +6,9 @@
 #
 # E-Mail: volodya@netfolder.ru
 
-# Base list
+# Lazy list
 
-class BaseList
+class LazyList
 	# Object constructor
 
 	constructor: (@service) ->
@@ -36,4 +36,4 @@ class BaseList
 
 # Exported objects
 
-module.exports = BaseList
+module.exports = LazyList
