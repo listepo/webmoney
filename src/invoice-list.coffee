@@ -13,7 +13,7 @@ LazyList = require('./lazy-list')
 # Invoice list
 
 class InvoiceList extends LazyList
-	# Retrieve information about invoices in the list
+	# Return information about invoices
 
 	info: (callback) -> @
 

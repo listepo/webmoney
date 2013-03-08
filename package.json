@@ -19,5 +19,11 @@
 		"xml-objects": ">=0.1",
 		"iconv-lite": ">=0.2",
 		"bignum": ">0.5"
+	},
+	"devDependencies": {
+		"coffee-script": ">=1.4"
+	},
+	"scripts": {
+		"prepublish": "coffee -c -b -o lib src"
 	}
 }
