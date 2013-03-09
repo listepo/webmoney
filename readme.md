@@ -2,6 +2,8 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
+## Class Service
+
 ## Class LazyList
 
 It is an abstract class with some basic features.
