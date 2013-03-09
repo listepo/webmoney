@@ -14,7 +14,7 @@ This class provides ability to decode and encode keys for classic authorization.
 
 ## Class LazyList
 
-It is an abstract class with some basic features.
+It is an abstract class with some basic features. All other list clases are based on `LazyList`.
 
 ### list.skip(count)
 - `count` Number
@@ -33,18 +33,17 @@ Fetches selected items from the server.
 
 ## Class PurseList
 
-This class represents a list of purses.
+This class represents a list of purses. No actual actions will occur unless you call `fetch` method.
 
 ### list.filter(condition)
 - `condition` Object
 
 Selects purses which satisfy provided condition.
 
-`condition` contains key-value pairs.
-
-Valid keys are:
+Valid keys for `condition` object are:
 - `wmid`
 - `type`
+- `amount`
 
 ### Examples
 
@@ -109,7 +108,7 @@ Valid keys are:
 - `order`
 - `date`
 
-### Example
+### Examples
 
 Let's get operations for some purses and print first 5 of them
 
