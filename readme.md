@@ -4,7 +4,7 @@ _webmoney_ provides you with easy and nice interface in order to access WebMoney
 
 ## API
 
-### LazyList
+### Class LazyList
 
 Description.
 
@@ -23,15 +23,24 @@ Limits number of items.
 
 Fetches selected items from the server.
 
-### PurseList
+### Class PurseList
 
 This class represents a list of purses.
 
-### OperationList
+#### filter(condition)
+- `condition` Object
+
+Selects purses which satisfy provided condition.
+
+### Class OperationList
 
 This class represents a list of operations.
 
 #### filter(condition)
 - `condition` Array | Object
 
-Selects items which satisfy provided condition.
+Selects operations which satisfy provided condition.
+
+### Class InvoiceList
+
+This class represents a list of invoices.
