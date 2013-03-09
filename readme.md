@@ -2,7 +2,17 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
-## API
+## Low-Level API.
+
+## High-Level API
+
+Purposes.
+
+Line 2.
+
+Line 3.
+
+---
 
 ### Class LazyList
 
@@ -23,6 +33,8 @@ Limits number of items.
 
 Fetches selected items from the server.
 
+---
+
 ### Class PurseList
 
 This class represents a list of purses.
@@ -32,6 +44,8 @@ This class represents a list of purses.
 
 Selects purses which satisfy provided condition.
 
+---
+
 ### Class OperationList
 
 This class represents a list of operations.
@@ -40,6 +54,8 @@ This class represents a list of operations.
 - `condition` Array | Object
 
 Selects operations which satisfy provided condition.
+
+---
 
 ### Class InvoiceList
 
