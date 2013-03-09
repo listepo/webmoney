@@ -4,18 +4,9 @@ _webmoney_ provides you with easy and nice interface in order to access WebMoney
 
 ## API
 
-### PurseList
+### LazyList
 
-This class represents a list of purses.
-
-### OperationList
-
-This class represents a list of operations.
-
-#### filter(condition)
-- `condition` Array | Object
-
-Selects items which satisfy provided condition.
+Description.
 
 #### skip(count)
 - `count` Number
@@ -31,3 +22,16 @@ Limits number of items.
 - `callback` Function
 
 Fetches selected items from the server.
+
+### PurseList
+
+This class represents a list of purses.
+
+### OperationList
+
+This class represents a list of operations.
+
+#### filter(condition)
+- `condition` Array | Object
+
+Selects items which satisfy provided condition.
