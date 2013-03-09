@@ -75,7 +75,7 @@ purses.fetch((error, data) ->
 )
 ```
 
-But stop! Maybe you purse is out of money? Let's check it!
+But stop! Maybe you purses is out of money? Let's check it!
 
 ```coffeescript
 purses.filter(wmid: ['123456789012', '132435465768'], type: 'Z', amount: $le: 100)
