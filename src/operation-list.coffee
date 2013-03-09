@@ -13,9 +13,13 @@ LazyList = require('./lazy-list')
 # Operation list
 
 class OperationList extends LazyList
-	# Return information about operations
+	# Hide service properties
 
-	info: (callback) ->
+	Object.defineProperty(@, '__super__', enumerable: false)
+
+	# Fetches selected items from the server
+
+	fetch: (callback) ->
 		# Сделать запрос на получение номеров кошельков
 		# Отфильтровать полученные данные (filter)
 		# Ограничить количество пунктов (skip, limit)
@@ -27,7 +31,7 @@ class OperationList extends LazyList
 
 		@
 
-	# Refund money to senders for selected operations
+	# Refunds money to sender
 
 	refund: (callback) -> @
 

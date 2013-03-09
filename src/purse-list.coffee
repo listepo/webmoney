@@ -15,15 +15,19 @@ InvoiceList = require('./invoice-list')
 # Purse list
 
 class PurseList extends LazyList
-	# Return information about purses
+	# Hide service properties
 
-	info: (callback) -> @
+	Object.defineProperty(@, '__super__', enumerable: false)
 
-	# Return operation axis
+	# Fetches selected items from the server
+
+	fetch: (callback) -> @
+
+	# Returns operation axis
 
 	operations: () -> new OperationList(@service)
 
-	# Return invoice axis
+	# Returns invoice axis
 
 	invoices: () -> new InvoiceList(@service)
 

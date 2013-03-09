@@ -13,11 +13,15 @@ LazyList = require('./lazy-list')
 # Invoice list
 
 class InvoiceList extends LazyList
-	# Return information about invoices
+	# Hide service properties
 
-	info: (callback) -> @
+	Object.defineProperty(@, '__super__', enumerable: false)
 
-	# Pay selected invoices
+	# Fetches selected items from the server
+
+	fetch: (callback) -> @
+
+	# Pays selected invoices
 
 	pay: () -> @
 

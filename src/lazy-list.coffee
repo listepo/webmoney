@@ -13,24 +13,31 @@ class LazyList
 
 	constructor: (@service) ->
 
-	# Filter items using provided selector
+	# Filters items using provided selector
 
 	filter: (condition) ->
 		if condition? then @$filter = condition else delete @$filter
 
 		@
 
-	# Skip pointed number of items
+	# Skips pointed number of items
 
 	skip: (count) ->
 		if count? then @$skip = count else delete @$skip
 
 		@
 
-	# Limit number of items
+	# Limits number of items
 
 	limit: (count) ->
 		if count? then @$limit = count else delete @$limit
+
+		@
+
+	# Fetches items from the server
+
+	fetch: (callback) ->
+		callback(new Error('Pure virtual method was called!'))
 
 		@
 
