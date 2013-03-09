@@ -47,7 +47,7 @@ Valid keys for `condition` object are:
 
 ### Examples
 
-Imagine we have some WMID and wish to get all purses belong to them.
+Imagine we have some WMID and wish to get all purses belong to them:
 
 ```coffeescript
 purses.filter(wmid: ['123456789012', '132435465768'])
@@ -59,7 +59,7 @@ purses.fetch((error, data) ->
 )
 ```
 
-Look great! Go deeper. Sometimes it's useful to filter purses of some currency.
+Look great! Go deeper. Sometimes it's useful to filter purses of some currency:
 
 ```coffeescript
 purses.filter(wmid: ['123456789012', '132435465768'], type: ['Z', 'R'])
@@ -74,7 +74,7 @@ purses.fetch((error, data) ->
 )
 ```
 
-But stop! Maybe you purses is out of money? Let's check it!
+But stop! Maybe you purses is out of money? Let's check it:
 
 ```coffeescript
 purses.filter(wmid: ['123456789012', '132435465768'], type: 'Z', amount: $le: 100)
