@@ -2,7 +2,15 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
+# Query Language
+
+# API
+
 ## Class Service
+
+## Class ClassicKey
+
+This class provides ability to decode and encode keys for classic authorization.
 
 ## Class LazyList
 
@@ -32,6 +40,11 @@ This class represents a list of purses.
 
 Selects purses which satisfy provided condition.
 
+`condition` contains key-value pairs.
+
+Valid keys are:
+- `wmid`
+
 ## Class OperationList
 
 This class represents a list of operations.
@@ -40,6 +53,16 @@ This class represents a list of operations.
 - `condition` Array | Object
 
 Selects operations which satisfy provided condition.
+
+if `condition` is `Array` it should consists of operation IDs. Otherwise `condition` contains key-value pairs.
+
+Valid keys are:
+- `purse`
+- `operation`
+- `transfer`
+- `invoice`
+- `order`
+- `date`
 
 ## Class InvoiceList
 
