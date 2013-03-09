@@ -44,6 +44,51 @@ Selects purses which satisfy provided condition.
 
 Valid keys are:
 - `wmid`
+- `type`
+
+### Examples
+
+Imagine we have some WMID and wish to get all purses belong to them.
+
+```coffeescript
+purses.filter(wmid: ['123456789012', '132435465768'])
+
+purses.fetch((error, data) ->
+	unless error? then console.log(data) else console.log(error)
+
+	undefined
+)
+```
+
+Look great! Go deeper. Sometimes it's useful to filter purses of some currency.
+
+```coffeescript
+purses.filter(wmid: ['123456789012', '132435465768'], type: ['Z', 'R'])
+
+purses.fetch((error, data) ->
+	unless error?
+		if data.length then console.log(data) else console.log('Sorry! No USD or RUR purses found')
+	else
+		console.log(error)
+
+	undefined
+)
+```
+
+But stop! Maybe you purse is out of money? Let's check it!
+
+```coffeescript
+purses.filter(wmid: ['123456789012', '132435465768'], type: 'Z', amount: $le: 100)
+
+purses.fetch((error, data) ->
+	unless error?
+		if data.length then console.log(data) else console.log('You have at least 100$')
+	else
+		console.log(error)
+
+	undefined
+)
+```
 
 ## Class OperationList
 
@@ -63,6 +108,20 @@ Valid keys are:
 - `invoice`
 - `order`
 - `date`
+
+### Example
+
+Let's get operations for some purses and print first 5 of them
+
+```coffeescript
+operations.filter(purse: ['R123456789012', 'Z987654321098']).limit(5)
+
+operations.fetch((error, data) ->
+	unless error? then console.log(data) else console.log(error)
+	
+	undefined
+)
+```
 
 ## Class InvoiceList
 
