@@ -2,11 +2,11 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
-# Query Language
-
 # API
 
 ## Class Service
+
+Description.
 
 ## Class ClassicKey
 
@@ -16,17 +16,17 @@ This class provides ability to decode and encode keys for classic authorization.
 
 It is an abstract class with some basic features. All other list clases are based on `LazyList`.
 
-### list.skip(count)
+### .skip(count)
 - `count` Number
 
 Skips pointed number of items.
 
-### list.limit(count)
+### .limit(count)
 - `count` Number
 
 Limits number of items.
 
-### list.fetch(callback)
+### .fetch(callback)
 - `callback` Function
 
 Fetches selected items from the server.
@@ -35,55 +35,45 @@ Fetches selected items from the server.
 
 This class represents a list of purses. No actual actions will occur unless you call `fetch` method.
 
-### list.filter(condition)
-- `condition` Object
+### ::constructor(condition)
+- `condition` Array | Object
+
+Constructor for `PurseList` class.
+
+### .filter(condition)
+- `condition` Array | Object
 
 Selects purses which satisfy provided condition.
 
-Valid keys for `condition` object are:
-- `wmid`
+if `condition` is `Array` it should consists of purse numbers. Otherwise `condition` contains key-value pairs.
+
+Valid keys are:
+- `number`
+- `owner`
 - `type`
 - `amount`
 
 ### Examples
 
-Imagine we have some WMID and wish to get all purses belong to them:
+First of all we will print details about pointed purses:
 
 ```coffeescript
-purses.filter(wmid: ['123456789012', '132435465768'])
+purses.filter(number: ['R123456789012', 'Z098765432109'])
 
 purses.fetch((error, data) ->
 	unless error? then console.log(data) else console.log(error)
-
+	
 	undefined
 )
 ```
 
-Look great! Go deeper. Sometimes it's useful to filter purses of some currency:
+Imagine we have some WMID and wish to get all purses belong to them:
 
 ```coffeescript
-purses.filter(wmid: ['123456789012', '132435465768'], type: ['Z', 'R'])
+purses.filter(owner: ['123456789012', '132435465768'])
 
 purses.fetch((error, data) ->
-	unless error?
-		if data.length then console.log(data) else console.log('Sorry! No USD or RUR purses found')
-	else
-		console.log(error)
-
-	undefined
-)
-```
-
-But stop! Maybe you purses are out of money? Let's check it:
-
-```coffeescript
-purses.filter(wmid: ['123456789012', '132435465768'], type: 'Z', amount: $le: 100)
-
-purses.fetch((error, data) ->
-	unless error?
-		if data.length then console.log(data) else console.log('You have at least 100$')
-	else
-		console.log(error)
+	unless error? then console.log(data) else console.log(error)
 
 	undefined
 )
