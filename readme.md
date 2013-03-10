@@ -31,6 +31,11 @@ Limits number of items.
 
 Fetches selected items from the server.
 
+### .exists(callback)
+- `callback` Function
+
+Check whether list have at least one item.
+
 ## Class PurseList
 
 This class represents a list of purses. No actual actions will occur unless you call `fetch` method.
