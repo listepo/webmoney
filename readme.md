@@ -25,19 +25,25 @@ Description.
 
 ## Class Payment
 
-Description.
+This class represents a payment.
 
 ### .process(callback)
 - `callback` Function
 - `return` Payment
 
-Description.
+Sends payment parameters to the server and calls `callback` on complete.
+Data received from the server will be cached so that payment state remains actual.
+This method returns original `this` object.
+
+Note you can use this method only once with particular payment.
 
 ### .reverse(callback)
 - `callback` Function
 - `return` Payment
 
-Description.
+Refunds money to the sender and calls `callback` on complete.
+Data received from the server will be cached so that payment state remains actual.
+This method returns original `this` object.
 
 ## Class Invoice
 
