@@ -19,6 +19,28 @@ This class provides ability to decode and encode keys for classic authorization.
 
 Description.
 
+## Class Payment
+
+Description.
+
+### .process()
+- `return` Payment
+
+Description.
+
+## Class Invoice
+
+Description.
+
+## Class Message
+
+Description.
+
+### .send(callback)
+- `return` Message
+
+Description.
+
 ## Class LazyList
 
 It is an abstract class with some basic features. All other list clases are based on `LazyList`.
