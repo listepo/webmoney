@@ -12,27 +12,50 @@ Description.
 
 This class provides ability to decode and encode keys for classic authorization.
 
+### ::fromFile(fileName, wmid, password)
+- `fileName` String
+- `wmid` String
+- `password` String
+
+Description.
+
 ## Class LazyList
 
 It is an abstract class with some basic features. All other list clases are based on `LazyList`.
 
+### .filter(condition)
+- `condition` Array | Object
+- `return` LazyList
+
+Selects items which satisfy provided condition.
+
+### .exclude(condition)
+- `condition` Array | Object
+- `return` LazyList
+
+Excludes items which satisfy provided condition.
+
 ### .skip(count)
 - `count` Number
+- `return` LazyList
 
 Skips pointed number of items.
 
 ### .limit(count)
 - `count` Number
+- `return` LazyList
 
 Limits number of items.
 
 ### .fetch(callback)
 - `callback` Function
+- `return` LazyList
 
 Fetches selected items from the server.
 
 ### .exists(callback)
 - `callback` Function
+- `return` LazyList
 
 Check whether list have at least one item.
 
