@@ -19,11 +19,22 @@ This class provides ability to decode and encode keys for classic authorization.
 
 Description.
 
+## Class Purse
+
+Description.
+
 ## Class Payment
 
 Description.
 
-### .process()
+### .process(callback)
+- `callback` Function
+- `return` Payment
+
+Description.
+
+### .reverse(callback)
+- `callback` Function
 - `return` Payment
 
 Description.
@@ -32,11 +43,18 @@ Description.
 
 Description.
 
+### .pay(callback)
+- `callback` Function
+- `return` Invoice
+
+Description.
+
 ## Class Message
 
 Description.
 
 ### .send(callback)
+- `callback` Function
 - `return` Message
 
 Description.
