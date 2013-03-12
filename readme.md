@@ -31,19 +31,30 @@ This class represents a payment.
 - `callback` Function
 - `return` Payment
 
-Sends payment parameters to the server and calls `callback` on complete.
-Data received from the server will be cached so that payment state remains actual.
+Processes payment and calls `callback` on complete.
+Data received from the server will be cached so that payment state will remain actual.
 This method returns original `this` object.
 
-Note you can use this method only once with particular payment.
+Note you can use this method only with newly created payments.
 
-### .reverse(callback)
+### .finish(code, callback)
+- `code` String
+- `callback` Function
+- `return` Payment
+
+Finishes protected operation by supplying provided code.
+
+This method returns original `this` object.
+
+### .reverse(amount, callback)
+- `amount` Number
 - `callback` Function
 - `return` Payment
 
 Refunds money to the sender and calls `callback` on complete.
-Data received from the server will be cached so that payment state remains actual.
-This method returns original `this` object.
+Data received from the server will be cached so that payment state will remain actual.
+
+Note you can call this method many times on the same payment untill all sum will be refunded.
 
 ## Class Invoice
 
