@@ -42,7 +42,7 @@ Note you can use this method only with newly created payments.
 - `callback` Function
 - `return` Payment
 
-Finishes protected operation by supplying provided code.
+Finishes protected operation by supplying provided code and calls `callback` on complete.
 
 This method returns original `this` object.
 
@@ -56,6 +56,18 @@ Data received from the server will be cached so that payment state will remain a
 
 Note you can call this method many times on the same payment untill all sum will be refunded.
 
+### Examples
+
+```coffeescript
+payment = new webmoney.Payment(source: 'R123456789012', destination: 'R098765432109', amount: 150)
+
+payment.process((error) ->
+	console.log(error)
+	
+	undefined
+)
+```
+
 ## Class Invoice
 
 Description.
@@ -68,6 +80,16 @@ Description.
 
 ## Class Message
 
+This class represents a message.
+
+The following fields are allowed:
+- `subject`
+- `body`
+- `recipient`
+
+### ::constructor(data)
+- `data` Object
+
 Description.
 
 ### .send(callback)
@@ -75,6 +97,22 @@ Description.
 - `return` Message
 
 Description.
+
+### Examples
+
+```coffeescript
+message = new webmoney.Message(
+	destination: '123456789012'
+	subject: 'Hello!'
+	body: 'Do it, do it again with love!'
+)
+
+message.send((error) ->
+	console.log(error)
+	
+	undefined
+)
+```
 
 ## Class LazyList
 
