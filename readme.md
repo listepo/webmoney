@@ -2,7 +2,7 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
-# API
+# Low-Level API
 
 ## Class Service
 
@@ -18,6 +18,30 @@ This class provides ability to decode and encode keys for classic authorization.
 - `password` String
 
 Description.
+
+### ::fromBuffer()
+
+Description.
+
+### .toFile(fileName)
+
+Description.
+
+# High-Level API
+
+## Class Model
+
+Description.
+
+### ::constructor(data)
+- `data` Object
+
+Description.
+
+### .isNew()
+- `return` Boolean
+
+Check whether model has been saved.
 
 ## Class Purse
 
@@ -59,7 +83,11 @@ Note you can call this method many times on the same payment untill all sum will
 ### Examples
 
 ```coffeescript
-payment = new webmoney.Payment(source: 'R123456789012', destination: 'R098765432109', amount: 150)
+payment = new webmoney.Payment(
+	source: 'R123456789012'
+	destination: 'R098765432109'
+	amount: 150
+)
 
 payment.process((error) ->
 	console.log(error)
@@ -70,7 +98,13 @@ payment.process((error) ->
 
 ## Class Invoice
 
-Description.
+This class represents an invoice.
+
+### .save(callback)
+- `callback` Function
+- `return` Invoice
+
+Saves invoice to the server
 
 ### .pay(callback)
 - `callback` Function
@@ -81,16 +115,6 @@ Description.
 ## Class Message
 
 This class represents a message.
-
-The following fields are allowed:
-- `subject`
-- `body`
-- `recipient`
-
-### ::constructor(data)
-- `data` Object
-
-Description.
 
 ### .send(callback)
 - `callback` Function
@@ -103,8 +127,8 @@ Description.
 ```coffeescript
 message = new webmoney.Message(
 	destination: '123456789012'
-	subject: 'Hello!'
-	body: 'Do it, do it again with love!'
+	subject: 'Hello'
+	body: 'I have some good ideas!'
 )
 
 message.send((error) ->
