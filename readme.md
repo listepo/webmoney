@@ -2,7 +2,7 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
-# API
+# Low-Level API
 
 ## Class Service
 
@@ -19,17 +19,41 @@ This class provides ability to decode and encode keys for classic authorization.
 
 Description.
 
+### ::fromBuffer()
+
+Description.
+
+### .toFile(fileName)
+
+Description.
+
+# High-Level API
+
+## Class Model
+
+Description.
+
+### ::constructor(data)
+- `data` Object
+
+Description.
+
+### .isNew()
+- `return` Boolean
+
+Check whether model has been saved.
+
 ## Class Purse
 
 Description.
 
-## Class Payment
+## Class Operation
 
-This class represents a payment.
+This class represents an operation.
 
 ### .process(callback)
 - `callback` Function
-- `return` Payment
+- `return` Operation
 
 Processes payment and calls `callback` on complete.
 Data received from the server will be cached so that payment state will remain actual.
@@ -40,16 +64,22 @@ Note you can use this method only with newly created payments.
 ### .finish(code, callback)
 - `code` String
 - `callback` Function
-- `return` Payment
+- `return` Operation
 
 Finishes protected operation by supplying provided code and calls `callback` on complete.
+This method returns original `this` object.
 
+### .reject(callback)
+- `callback` Function
+- `return` Operation
+
+Rejects protected operations.
 This method returns original `this` object.
 
 ### .reverse(amount, callback)
 - `amount` Number
 - `callback` Function
-- `return` Payment
+- `return` Operation
 
 Refunds money to the sender and calls `callback` on complete.
 Data received from the server will be cached so that payment state will remain actual.
@@ -59,10 +89,27 @@ Note you can call this method many times on the same payment untill all sum will
 ### Examples
 
 ```coffeescript
-payment = new webmoney.Payment(source: 'R123456789012', destination: 'R098765432109', amount: 150)
+payment = new webmoney.Operation(
+	pursesrc: 'R123456789012'
+	pursedest: 'R098765432109'
+	amount: 150
+	onlyauth: 1
+)
 
 payment.process((error) ->
-	console.log(error)
+	unless error? then console.log('Successfully done!') else console.log(error)
+	
+	undefined
+)
+```
+
+```coffeescript
+deposition = new webmoney.Operation(
+	wmtranid: 12385309875
+)
+
+deposition.finish('my code', (error) ->
+	unless error? then console.log('Deposition accepted!') else console.log(error)
 	
 	undefined
 )
@@ -70,7 +117,13 @@ payment.process((error) ->
 
 ## Class Invoice
 
-Description.
+This class represents an invoice.
+
+### .save(callback)
+- `callback` Function
+- `return` Invoice
+
+Saves invoice to the server
 
 ### .pay(callback)
 - `callback` Function
@@ -81,16 +134,6 @@ Description.
 ## Class Message
 
 This class represents a message.
-
-The following fields are allowed:
-- `subject`
-- `body`
-- `recipient`
-
-### ::constructor(data)
-- `data` Object
-
-Description.
 
 ### .send(callback)
 - `callback` Function
@@ -103,8 +146,8 @@ Description.
 ```coffeescript
 message = new webmoney.Message(
 	destination: '123456789012'
-	subject: 'Hello!'
-	body: 'Do it, do it again with love!'
+	subject: 'Hello'
+	body: 'I have some good ideas!'
 )
 
 message.send((error) ->
