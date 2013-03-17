@@ -13,6 +13,10 @@ WebService = require('../../web-client').WebService
 # WebMoney light service
 
 class Light extends WebService
+	# Hide service properties
+
+	Object.defineProperty(@, '__super__', enumerable: false)
+	
 	# Constants
 
 	@DEFAULT_HOST: 'w3s.wmtransfer.com'	# Default host for connections

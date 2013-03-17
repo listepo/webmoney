@@ -34,7 +34,7 @@ class LazyList
 
 		@
 
-	# Fetches items from the server
+	# Fetches selected items from the server
 
 	fetch: (callback) ->
 		callback(new Error('Pure virtual method was called!'))

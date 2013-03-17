@@ -8,28 +8,11 @@
 
 # Required modules
 
-Purses = require('./purse-list')
-Invoices = require('./invoice-list')
+Model = require('./model')
 
 # WebMoney WMID
 
-class WMID
-	# Object constructor
-
-	constructor: (@service) ->
-
-	#
-
-	purses: () -> new Purses()
-
-	#
-
-	invoices: () -> new Invoices()
-
-	#
-
-	passport: (callback) ->
-		@
+class WMID extends Model
 
 # Exported objects
 

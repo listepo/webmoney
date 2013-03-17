@@ -15,6 +15,10 @@ WebService = require('../../web-client').WebService
 # WebMoney classic service
 
 class ClassicService extends WebService
+	# Hide service properties
+
+	Object.defineProperty(@, '__super__', enumerable: false)
+	
 	# Constants
 
 	@DEFAULT_HOST: 'w3s.webmoney.ru'	# Default host for connections

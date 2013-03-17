@@ -25,10 +25,10 @@ EXPONENT_START = 6      # Exponenta start position in keys
 
 # Classic key
 
-class Key
+class ClassicKey
 	# Decrypts keys using wmid and password
 
-	@decryptKeys: (keys, wmid, password) ->
+	decryptKeys = (keys, wmid, password) ->
 		# Digest to be used as key during decryption
 		
 		digest = new Buffer(crypto.createHash('md4').update(wmid).update(password).digest(), 'binary')
@@ -41,7 +41,7 @@ class Key
 
 	# Checks data for integrity
 
-	@checkData: (header, keys) ->
+	checkData = (header, keys) ->
 		# Save reference CRC
 
 		crc = header.toString('hex', CRC_START, CRC_END)
@@ -56,7 +56,7 @@ class Key
 
 	# Parses buffer with keys
 
-	@parseKeys: (keys) ->
+	parseKeys = (keys) ->
 		# Extrack exponent and modulus from decrypted data
 
 		exponent = keys.slice(EXPONENT_START, EXPONENT_START + keys.readUInt16LE(4))
@@ -89,15 +89,15 @@ class Key
 
 		# Decrypt keys
 
-		@decryptKeys(keys, wmid, password)
+		decryptKeys(keys, wmid, password)
 
 		# Check keys for integrity
 
-		@checkData(header, keys)
+		checkData(header, keys)
 
 		# Returns key object with parsed keys
 
-		@parseKeys(keys)
+		parseKeys(keys)
 	
 	# Object constructor
 
@@ -105,4 +105,4 @@ class Key
 
 # Exported objects
 
-module.exports = Key
+module.exports = ClassicKey
