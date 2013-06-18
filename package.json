@@ -1,29 +1,26 @@
 {
 	"name": "webmoney",
-	"version": "0.1.9",
-	"description": "Client for WebMoney payment system",
-	"keywords": [
-		"webmoney",
-		"money",
-		"payment"
-	],
-	"author": {
-		"name": "Vladimir Andreev",
-		"email": "volodya@netfolder.ru"
-	},
+	"version": "0.1.0",
+	"description": "Client for WebMoney",
+	"keywords": ["webmoney", "money", "payment"],
+	"main": "./lib/index",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/silentpay/webmoney.git"
 	},
 	"dependencies": {
-		"xml-objects": ">=0.1",
-		"iconv-lite": ">=0.2",
-		"bignum": ">0.5"
+		"xml-objects": "0.x",
+		"iconv-lite": "0.x",
+		"extend": "1.x"
 	},
 	"devDependencies": {
-		"coffee-script": ">=1.4"
+		"coffee-script": "1.x"
 	},
 	"scripts": {
-		"prepublish": "coffee -c -b -o lib src"
+		"prepublish": "./node_modules/.bin/coffee -c -b -o lib src"
+	},
+	"author": {
+		"name": "Vladimir Andreev",
+		"email": "volodya@netfolder.ru"
 	}
 }
