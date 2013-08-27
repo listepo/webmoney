@@ -8,7 +8,7 @@
 
 # Supported interfaces: A1 - A3, WMC1 - WMC4, ATM1 - ATM2
 
-# WebMoney merchant service
+# WebMoney transfer service
 
 class TransferService
 	# Default hosts
