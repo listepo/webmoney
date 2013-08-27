@@ -1,6 +1,6 @@
 # WebMoney classes
 #
-# November, 2012 year
+# June, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -8,24 +8,11 @@
 
 # Exported objects
 
-#exports.Classic = require('./lib/classic')
-#exports.Light = require('./lib/light')
+exports.Key = require('./key')
+exports.Signer = require('./signer')
 
-# Utility classes
+# WebMoney services
 
-exports.ClassicKey = require('./lib/classic-key')
-
-#
-
-exports.WMID = require('./lib/wmid')
-exports.Purse = require('./lib/purse')
-exports.Operation = require('./lib/operation')
-exports.Invoice = require('./lib/invoice')
-exports.Message = require('./lib/message')
-
-# LazyList and its descendants
-
-exports.LazyList = require('./lib/lazy-list')
-exports.PurseList = require('./lib/purse-list')
-exports.OperationList = require('./lib/operation-list')
-exports.InvoiceList = require('./lib/invoice-list')
+exports.W3Service = require('./w3-service')
+exports.PassportService = require('./passport-service')
+exports.MerchantService = require('./merchant-service')

@@ -1,6 +1,6 @@
-# WebMoney classic key
+# WebMoney key
 #
-# November, 2012 year
+# June, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -23,9 +23,9 @@ LENGTH_START = 20       # Length start position in header
 KEY_SIZE = 140          # Key extected size
 EXPONENT_START = 6      # Exponenta start position in keys
 
-# Classic key
+# WebMoney key
 
-class ClassicKey
+class Key
 	# Decrypts keys using wmid and password
 
 	decryptKeys = (keys, wmid, password) ->
@@ -60,7 +60,7 @@ class ClassicKey
 		# Extrack exponent and modulus from decrypted data
 
 		exponent = keys.slice(EXPONENT_START, EXPONENT_START + keys.readUInt16LE(4))
-		modulus = keys.slice(EXPONENT_START + exponent.length, EXPONENT_START + exponent.length + keys.readUInt16LE(EXPONENT_START + exponent.length))
+		modulus = keys.slice(EXPONENT_START + exponent.length + 2, EXPONENT_START + exponent.length + 2 + keys.readUInt16LE(EXPONENT_START + exponent.length))
 
 		# Returns new key object
 
@@ -105,4 +105,4 @@ class ClassicKey
 
 # Exported objects
 
-module.exports = ClassicKey
+module.exports = Key
