@@ -10,8 +10,7 @@
 	},
 	"dependencies": {
 		"xml-objects": "0.x",
-		"iconv-lite": "0.x",
-		"extend": "1.x"
+		"iconv-lite": "0.x"
 	},
 	"devDependencies": {
 		"coffee-script": "1.x"
