@@ -1,6 +1,6 @@
 # WebMoney key
 #
-# June, 2013 year
+# August, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -66,6 +66,21 @@ class Key
 
 		new Key(exponent, modulus)
 
+	# Load keys from buffer
+
+	@fromBuffer: (header, keys, wmid, password) ->
+		# Decrypt keys
+
+		decryptKeys(keys, wmid, password)
+
+		# Check keys for integrity
+
+		checkData(header, keys)
+
+		# Returns key object with parsed keys
+
+		parseKeys(keys)
+
 	# Loads keys from file
 	
 	@fromFile: (fileName, wmid, password) ->
@@ -87,17 +102,9 @@ class Key
 		
 		fs.closeSync(file)
 
-		# Decrypt keys
+		#
 
-		decryptKeys(keys, wmid, password)
-
-		# Check keys for integrity
-
-		checkData(header, keys)
-
-		# Returns key object with parsed keys
-
-		parseKeys(keys)
+		@fromBuffer(header, keys, wmid, password)
 	
 	# Object constructor
 
