@@ -26,7 +26,9 @@ RANDOM_SIZE = 40
 class Signer
 	# Object constructor
 
-	constructor: (@key) ->
+	constructor: (key) ->
+		@_exponent = BigNum.fromBuffer(key.exponent, endian: 'little', size: 'auto')
+		@_modulus = BigNum.fromBuffer(key.modulus, endian: 'little', size: 'auto')
 
 	# Returns digest of provided message
 
@@ -42,10 +44,7 @@ class Signer
 		else blob.fill(0, HASH_START + hash.length)
 
 		blobNumber = BigNum.fromBuffer(blob, endian: 'little', size: 'auto')
-		expNumber = BigNum.fromBuffer(@key.exponent, endian: 'little', size: 'auto')
-		modNumber = BigNum.fromBuffer(@key.modulus, endian: 'little', size: 'auto')
-
-		signNumber = blobNumber.powm(expNumber, modNumber)
+		signNumber = blobNumber.powm(@_exponent, @_modulus)
 		
 		Array::reverse.call(signNumber.toBuffer(endian: 'little', size: 2)).toString('hex')
 
