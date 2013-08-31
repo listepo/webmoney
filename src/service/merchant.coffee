@@ -8,81 +8,82 @@
 
 # Supported interfaces: X18, X20 - X22
 
+# Required modules
+
+BaseService = require('./base')
+
 # WebMoney merchant service
 
-class MerchantService
-	# Default hosts
+class MerchantService extends BaseService
+	# Default hosts for requests
 
-	@MAIN_HOST: 'merchant.webmoney.ru'		# Host for all types of authorization except light one
-	@LIGHT_HOST: 'merchant.wmtransfer.com'	# Host for light authorization
+	@DEFAULT_HOST: 'merchant.webmoney.ru'	# Host for md5 hash and secret key auth
+	@CLASIC_HOST: 'merchant.webmoney.ru'	# Host for classic auth
+	@LIGHT_HOST: 'merchant.wmtransfer.com'	# Host for light auth
 
-	#
+	# Method definitions
 
-	@CONTAINERS:
+	@METHODS:
 		TransGet:
 			sign: true
 			md5: true
 			secret: true
+			order: [
+				'wmid'
+				'lmi_payee_purse'
+				'lmi_payment_no'
+			]
 		TransRequest:
 			sign: true
 			md5: true
 			secret: true
 			json: true
+			order: [
+				'wmid'
+				'lmi_payee_purse'
+				'lmi_payment_no'
+				'lmi_clientnumber'
+				'lmi_clientnumber_type'
+			]
 		TransConfirm:
 			sign: true
 			md5: true
 			secret: true
 			json: true
+			order: [
+				'wmid'
+				'lmi_payee_purse'
+				'lmi_wminvoiceid'
+				'lmi_clientnumber_code'
+			]
 		TrustRequest:
 			sign: true
 			light: true
+			order: [
+				'wmid'
+				'lmi_payee_purse'
+				'lmi_clientnumber'
+				'lmi_clientnumber_type'
+				'lmi_sms_type'
+			]
 		TrustConfirm:
 			sign: true
 			light: true
+			order: [
+				'wmid'
+				'lmi_purseid'
+				'lmi_clientnumber_code'
+			]
 		TransSave:
 			sign: true
 			md5: true
 			secret: true
-
-	# Parameters for signature generation
-
-	@SIGNATURES:
-		TransGet: [
-			'wmid'
-			'lmi_payee_purse'
-			'lmi_payment_no'
-		]
-		TransRequest: [
-			'wmid'
-			'lmi_payee_purse'
-			'lmi_payment_no'
-			'lmi_clientnumber'
-			'lmi_clientnumber_type'
-		]
-		TransConfirm: [
-			'wmid'
-			'lmi_payee_purse'
-			'lmi_wminvoiceid'
-			'lmi_clientnumber_code'
-		]
-		TrustRequest: [
-			'wmid'
-			'lmi_payee_purse'
-			'lmi_clientnumber'
-			'lmi_clientnumber_type'
-			'lmi_sms_type'
-		]
-		TrustConfirm: [
-			'wmid'
-			'lmi_purseid'
-			'lmi_clientnumber_code'
-		]
-		TransSave: [
-			'wmid'
-			'lmi_payee_purse'
-			'lmi_payment_no'
-			'validityperiodinhours'
-		]
+			order: [
+				'wmid'
+				'lmi_payee_purse'
+				'lmi_payment_no'
+				'validityperiodinhours'
+			]
 
 	#
 

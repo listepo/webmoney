@@ -8,13 +8,17 @@
 
 # Supported interfaces: X11, X19
 
+# Required modules
+
+BaseService = require('./base')
+
 # WebMoney passport service
 
-class PassportService
-	# Default hosts
+class PassportService extends BaseService
+	# Default hosts for requests
 
-	@API_HOST: 'apipassport.webmoney.ru'
-	@PASSPORT_HOST: 'passport.webmoney.ru'
+	@DEFAULT_HOST: 'passport.webmoney.ru'
+	@DEFAULT_HOST_1: 'apipassport.webmoney.ru'
 
 # Exported objects
 

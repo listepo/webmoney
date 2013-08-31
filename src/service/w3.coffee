@@ -8,144 +8,246 @@
 
 # Supported interfaces: X1 - X10, X13 - X16
 
+# Required modules
+
+https = require('https')
+iconv = require('iconv-lite')
+XML = require('../../../xml-objects').XML
+BaseService = require('./base')
+Signer = require('../signer')
+
+filters = require('../../../../silentpay/api/src/filter/body-parser')
+
 # WebMoney w3 service
 
-class W3Service
-	# Default hosts
+class W3Service extends BaseService
+	# Default hosts for requests
 
 	@CLASSIC_HOST: 'w3s.webmoney.ru'	# Host for classic authorization
 	@LIGHT_HOST: 'w3s.wmtransfer.com'	# Host for light authorization
 
+	# Method definitions
+
+	@METHODS:
+		Invoice:
+			container: 'invoice'
+			order: [
+				'invoice.orderid'
+				'invoice.customerwmid'
+				'invoice.storepurse'
+				'invoice.amount'
+				'invoice.desc'
+				'invoice.address'
+				'invoice.period'
+				'invoice.expiration'
+				'reqn'
+			]
+		Trans:
+			container: 'trans'
+			order: [
+				'reqn'
+				'trans.tranid'
+				'trans.pursesrc'
+				'trans.pursedest'
+				'trans.amount'
+				'trans.period'
+				'trans.pcode'
+				'trans.desc'
+				'trans.wminvid'
+			]
+		Operations:
+			container: 'getoperations'
+			order: [
+				'getoperations.purse'
+				'reqn'
+			]
+		OutInvoices:
+			container: 'getoutinvoices'
+			order: [
+				'getoutinvoices.purse'
+				'reqn'
+			]
+		FinishProtect:
+			container: 'finishprotect'
+			order: [
+				'finishprotect.wmtranid'
+				'finishprotect.pcode'
+				'reqn'
+			]
+		SendMsg:
+			container: 'message'
+			order: [
+				'message.receiverwmid'
+				'reqn'
+				'message.msgtext'
+				'message.msgsubj'
+			]
+		FindWMPurseNew:
+			container: 'testwmpurse'
+			order: [
+				'testwmpurse.wmid'
+				'testwmpurse.purse'
+			]
+		Purses:
+			container: 'getpurses'
+			order: [
+				'getpurses.wmid'
+				'reqn'
+			]
+		InInvoices:
+			container: 'getininvoices'
+			order: [
+				'getininvoices.wmid'
+				'getininvoices.wminvid'
+				'getininvoices.datestart'
+				'getininvoices.datefinish'
+				'reqn'
+			]
+		RejectProtect:
+			container: 'rejectprotect'
+			order: [
+				'rejectprotect.wmtranid'
+				'reqn'
+			]
+		TransMoneyback:
+			container: 'trans'
+			order: [
+				'reqn'
+				'trans.inwmtranid'
+				'trans.amount'
+			]
+		TrustList:
+			container: 'gettrustlist'
+			order: [
+				'gettrustlist.wmid'
+				'reqn'
+			]
+		TrustList2:
+			container: 'gettrustlist'
+			order: [
+				'gettrustlist.wmid'
+				'reqn'
+			]
+		TrustSave2:
+			container: 'trust'
+			order: [
+				'wmid'
+				'trust.purse'
+				'trust.masterwmid'
+				'reqn'
+			]
+		CreatePurse:
+			container: 'createpurse'
+			order: [
+				'createpurse.wmid'
+				'createpurse.pursetype'
+				'reqn'
+			]
+
 	#
 
-	@CONTAINERS:
-		Invoice: 'invoice'				# X1
-		Trans: 'trans'					# X2
-		Operations: 'getoperations'		# X3
-		OutInvoices: 'getoutinvoices'	# X4
-		FinishProtect: 'finishprotect'	# X5
-		SendMsg: 'message'				# X6
-		FindWMPurseNew: 'testwmpurse'	# X8
-		Purses: 'getpurses'				# X9
-		InInvoices: 'getininvoices'		# X10
-		RejectProtect: 'rejectprotect'	# X13
-		TransMoneyback: 'trans'			# X14
-		TrustList: 'gettrustlist'		# X15-1
-		TrustList2: 'gettrustlist'		# X15-2
-		TrustSave2: 'trust'				# X15-3
-		CreatePurse: 'createpurse'		# X16
+	constructor: (@wmid, @key, @host = @constructor.CLASSIC_HOST, @port = @constructor.DEFAULT_PORT) ->
+		@signer = new Signer(@key)
 
-	# Parameters for signature generation
+	#
 
-	@SIGNATURES:
-		Invoice: [
-			'invoice.orderid'
-			'invoice.customerwmid'
-			'invoice.storepurse'
-			'invoice.amount'
-			'invoice.desc'
-			'invoice.address'
-			'invoice.period'
-			'invoice.expiration'
-			'reqn'
-		]
-		Trans: [
-			'reqn'
-			'trans.tranid'
-			'trans.pursesrc'
-			'trans.pursedest'
-			'trans.amount'
-			'trans.period'
-			'trans.pcode'
-			'trans.desc'
-			'trans.wminvid'
-		]
-		Operations: [
-			'getoperations.purse'
-			'reqn'
-		]
-		OutInvoices: [
-			'getoutinvoices.purse'
-			'reqn'
-		]
-		FinishProtect: [
-			'finishprotect.wmtranid'
-			'finishprotect.pcode'
-			'reqn'
-		]
-		SendMsg: [
-			'message.receiverwmid'
-			'reqn'
-			'message.msgtext'
-			'message.msgsubj'
-		]
-		FindWMPurseNew: [
-			'testwmpurse.wmid'
-			'testwmpurse.purse'
-		]
-		Purses: [
-			'getpurses.wmid'
-			'reqn'
-		]
-		InInvoices: [
-			'getininvoices.wmid'
-			'getininvoices.wminvid'
-			'getininvoices.datestart'
-			'getininvoices.datefinish'
-			'reqn'
-		]
-		RejectProtect: [
-			'rejectprotect.wmtranid'
-			'reqn'
-		]
-		TransMoneyback: [
-			'reqn'
-			'trans.inwmtranid'
-			'trans.amount'
-		]
-		TrustList: [
-			'gettrustlist.wmid'
-			'reqn'
-		]
-		TrustList2: [
-			'gettrustlist.wmid'
-			'reqn'
-		]
-		TrustSave2: [
-			'wmid'
-			'trust.purse'
-			'trust.masterwmid'
-			'reqn'
-		]
-		CreatePurse: [
-			'createpurse.wmid'
-			'createpurse.pursetype'
-			'reqn'
-		]
+	fieldValue = (object, path) ->
+		result = object
+
+		result = result[key] for key in path.split('.')
+
+		result
+
+	#
+
+	signString = (envelope, order) ->
+		result = []
+
+		result.push(fieldValue(envelope, path)) for path in order
+
+		result.join('')
+
+	#
+
+	_serialize: (envelope) ->
+		charset = 'utf-8'
+
+		body = iconv.encode(XML.stringify(envelope), charset)
+
+		[body, 'Content-Type': 'application/xml; charset=' + charset, 'Content-Length': body.length]
+
+	#
+
+	_parse: (headers, body) ->
+		XML.parse(iconv.decode(body, 'utf-8'))
 
 	# Returns URL path for given method
 
-	_path: (options) -> '/asp/XML' + options.method + '.asp'
+	_pathClassic: (options) -> '/asp/XML' + options.method + '.asp'
 
 	# Returns URL path for given method
 
-	_path: (options) -> '/asp/XML' + options.method + 'Cert.asp'
+	_pathLight: (options) -> '/asp/XML' + options.method + 'Cert.asp'
 
 	#
 
-	_prepare: (options) ->
-		envelope = reqn: 1, wmid: @wmid, sign: '12345'
-		envelope['test'] = options.data
+	_prepareClassic: (options) ->
+		content = reqn: 3, wmid: @wmid
+		content[options.container] = options.data
+		content.sign = @signer.digest(signString(content, options.order))
 
-		'w3s.request': envelope
+		'w3s.request': content
 
 	#
 	
-	_prepare: (options) ->
-		envelope = reqn: @reqn()
-		envelope['test'] = options.data
+	_prepareLight: (options) ->
+		content = reqn: 2
+		content[options.container] = options.data
 
-		'w3s.request': envelope
+		'w3s.request': content
+
+	#
+
+	_unprepare: (envelope) ->
+		envelope['w3s.response']
+
+	#
+
+	invoke: (method, data, callback) ->
+		methodDef = @constructor.METHODS[method]
+
+		envelope = @_prepareClassic(data: data, container: methodDef.container, order: methodDef.order)
+
+		[body, headers] = @_serialize(envelope)
+
+		path = @_pathClassic(method: method)
+
+		request = https.request(host: @host, port: @port, method: 'POST', path: path, headers: headers, rejectUnauthorized: false)
+
+		request.on('response', (response) =>
+			filters.concat(response, (error, data) =>
+				#console.log response.headers
+
+				console.log @_unprepare(@_parse(response.headers, data))
+
+				undefined
+			)
+		)
+
+		request.on('error', (error) ->
+			# Error handling
+
+			callback?(error)
+
+			undefined
+		)
+
+		console.log data
+		console.log ''
+
+		request.end(body)
+
+		@
 
 # Exported objects
 

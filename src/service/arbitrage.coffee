@@ -8,10 +8,14 @@
 
 # Supported interfaces: X17
 
+# Required modules
+
+BaseService = require('./base')
+
 # WebMoney arbitrage service
 
-class ArbitrageService
-	# Default hosts
+class ArbitrageService extends BaseService
+	# Default hosts for requests
 
 	@DEFAULT_HOST: 'arbitrage.webmoney.ru'
 
