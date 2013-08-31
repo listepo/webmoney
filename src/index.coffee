@@ -6,13 +6,15 @@
 #
 # E-Mail: volodya@netfolder.ru
 
-# Exported objects
+# WebMoney utils
 
 exports.Key = require('./key')
 exports.Signer = require('./signer')
 
 # WebMoney services
 
-exports.W3Service = require('./w3-service')
-exports.PassportService = require('./passport-service')
-exports.MerchantService = require('./merchant-service')
+exports.W3Service = require('./service/w3')
+exports.PassportService = require('./service/passport')
+exports.MerchantService = require('./service/merchant')
+exports.ArbitrageService = require('./service/arbitrage')
+exports.TransferService = require('./service/transfer')
