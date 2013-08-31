@@ -31,7 +31,7 @@ class Key
 	decryptKeys = (keys, wmid, password) ->
 		# Digest to be used as key during decryption
 		
-		digest = new Buffer(crypto.createHash('md4').update(wmid).update(password).digest(), 'binary')
+		digest = crypto.createHash('md4').update(wmid).update(password).digest()
 
 		# Make simple XOR decryption
 
@@ -50,7 +50,7 @@ class Key
 
 		header.fill(0, FLAG_START, CRC_END)
 		
-		# Calculate CRC
+		# Calculate actual CRC
 
 		crypto.createHash('md4').update(header).update(keys).digest('hex') is crc
 
