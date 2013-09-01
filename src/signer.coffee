@@ -1,6 +1,6 @@
 # WebMoney signer
 #
-# August, 2013 year
+# September, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -11,14 +11,18 @@
 crypto = require('crypto')
 BigNum = require('bignum')
 
-# Turn on or turn off generation of random data in signature
+# NOTE
+#
+# BigNum is very unstable and should be replaced by another library
+
+# Turn off or turn on generation of random data in signature
 
 DEBUG = false
 
 #
 
-HEADER_SIZE = 2
-HASH_START = HEADER_SIZE
+DATA_LENGTH_SIZE = 2
+HASH_START = DATA_LENGTH_SIZE
 RANDOM_SIZE = 40
 
 #
@@ -33,15 +37,22 @@ class Signer
 	# Returns digest of provided message
 
 	digest: (message) ->
+		# Generate hash from provided message and some random data
+
 		hash = crypto.createHash('md4').update(message).digest()
+		random = crypto.randomBytes(RANDOM_SIZE) unless DEBUG
 
-		blob = new Buffer(HEADER_SIZE + hash.length + RANDOM_SIZE)
+		# Create blob buffer and fill it with required data
 
-		blob.writeUInt16LE(blob.length - HEADER_SIZE, 0)
+		blob = new Buffer(DATA_LENGTH_SIZE + hash.length + RANDOM_SIZE)
+
+		blob.writeUInt16LE(blob.length - DATA_LENGTH_SIZE, 0)
 		hash.copy(blob, HASH_START)
 		
-		unless DEBUG then crypto.randomBytes(RANDOM_SIZE).copy(blob, HASH_START + hash.length)
-		else blob.fill(0, HASH_START + hash.length)
+		randomStart = HASH_START + hash.length
+		unless DEBUG then random.copy(blob, randomStart) else blob.fill(0, randomStart)
+
+		# Encrypt blob with RSA using known exponent and modulus
 
 		blobNumber = BigNum.fromBuffer(blob, endian: 'little', size: 'auto')
 		signNumber = blobNumber.powm(@_exponent, @_modulus)
