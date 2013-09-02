@@ -21,6 +21,7 @@ DEBUG = false
 
 #
 
+INT16_SIZE = 2
 DATA_LENGTH_SIZE = 2
 HASH_START = DATA_LENGTH_SIZE
 RANDOM_SIZE = 40
@@ -44,13 +45,14 @@ class Signer
 
 		# Create blob buffer and fill it with required data
 
-		blob = new Buffer(DATA_LENGTH_SIZE + hash.length + RANDOM_SIZE)
+		actualSize = hash.length + RANDOM_SIZE
 
-		blob.writeUInt16LE(blob.length - DATA_LENGTH_SIZE, 0)
+		blob = new Buffer(INT16_SIZE + actualSize)
+		blob.writeUInt16LE(actualSize, 0)
+
 		hash.copy(blob, HASH_START)
-		
-		randomStart = HASH_START + hash.length
-		unless DEBUG then random.copy(blob, randomStart) else blob.fill(0, randomStart)
+
+		unless DEBUG then random.copy(blob, HASH_START + hash.length) else blob.fill(0, HASH_START + hash.length)
 
 		# Encrypt blob with RSA using known exponent and modulus
 

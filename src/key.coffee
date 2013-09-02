@@ -1,6 +1,6 @@
 # WebMoney key
 #
-# August, 2013 year
+# September, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -11,17 +11,19 @@
 fs = require('fs')
 crypto = require('crypto')
 
-# Constants
+# Constants for header
 
-HEADER_SIZE = 24        # Header size
+HEADER_SIZE = 24		# Header size
 
-FLAG_START = 2          # Flag start position in header
-CRC_START = 4           # CRC start position in header
-CRC_END = 20            # CRC end position in header
-LENGTH_START = 20       # Length start position in header
+FLAG_START = 2			# Flag start position in header
+CRC_START = 4			# CRC start position in header
+CRC_END = 20			# CRC end position in header
+LENGTH_START = CRC_END	# Length start position in header
 
-KEY_SIZE = 140          # Key extected size
-EXPONENT_START = 6      # Exponenta start position in keys
+# Constants for body
+
+EXP_LENGTH_START = 4	# Exponent length start position
+KEY_DATA_START = 2		# Exponent data start position
 
 # WebMoney key
 
@@ -37,11 +39,11 @@ class Key
 
 		keys[index + 6] = octet ^ digest[index % digest.length] for octet, index in keys.slice(6)
 
-		@
+		undefined
 
 	# Checks data for integrity
 
-	checkData = (header, keys) ->
+	checkData = (header, data) ->
 		# Save reference CRC
 
 		crc = header.toString('hex', CRC_START, CRC_END)
@@ -52,15 +54,22 @@ class Key
 		
 		# Calculate actual CRC
 
-		crypto.createHash('md4').update(header).update(keys).digest('hex') is crc
+		crypto.createHash('md4').update(header).update(data).digest('hex') is crc
 
 	# Parses buffer with keys
 
-	parseKeys = (keys) ->
-		# Extrack exponent and modulus from decrypted data
+	parseKeys = (body) ->
+		# Extract exponent from decrypted data
 
-		exponent = keys.slice(EXPONENT_START, EXPONENT_START + keys.readUInt16LE(4))
-		modulus = keys.slice(EXPONENT_START + exponent.length + 2, EXPONENT_START + exponent.length + 2 + keys.readUInt16LE(EXPONENT_START + exponent.length))
+		exponent = new Buffer(body.readUInt16LE(4))
+		body.copy(exponent, 0, 4 + KEY_DATA_START, 4 + KEY_DATA_START + exponent.length)
+
+		# Extract modulus from decrypted data
+
+		offset = 4 + KEY_DATA_START + exponent.length
+
+		modulus = new Buffer(body.readUInt16LE(offset))
+		body.copy(modulus, 0, offset + KEY_DATA_START, offset + KEY_DATA_START + modulus.length)
 
 		# Returns new key object
 
@@ -68,18 +77,18 @@ class Key
 
 	# Load keys from buffer
 
-	@fromBuffer: (header, keys, wmid, password) ->
+	@fromBuffer: (header, body, wmid, password) ->
 		# Decrypt keys
 
-		decryptKeys(keys, wmid, password)
+		decryptKeys(body, wmid, password)
 
 		# Check keys for integrity
 
-		checkData(header, keys)
+		checkData(header, body)
 
 		# Returns key object with parsed keys
 
-		parseKeys(keys)
+		parseKeys(body)
 
 	# Loads keys from file
 	
@@ -93,10 +102,10 @@ class Key
 		header = new Buffer(HEADER_SIZE)
 		fs.readSync(file, header, 0, header.length)
 
-		# Read keys from file
+		# Read body from file
 
-		keys = new Buffer(header.readUInt32LE(LENGTH_START))
-		fs.readSync(file, keys, 0, keys.length)
+		body = new Buffer(header.readUInt32LE(LENGTH_START))
+		fs.readSync(file, body, 0, body.length)
 		
 		# Close file
 		
@@ -104,7 +113,7 @@ class Key
 
 		#
 
-		@fromBuffer(header, keys, wmid, password)
+		@fromBuffer(header, body, wmid, password)
 	
 	# Object constructor
 
