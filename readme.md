@@ -4,11 +4,7 @@ _webmoney_ provides you with easy and nice interface in order to access WebMoney
 
 # API
 
-## Class Service
-
-Description.
-
-## Class ClassicKey
+## Class Key
 
 This class provides ability to decode and encode keys for classic authorization.
 
@@ -19,10 +15,22 @@ This class provides ability to decode and encode keys for classic authorization.
 
 Description.
 
-### ::fromBuffer()
+### ::fromBuffer(header, body, wmid, password)
+- `header` Buffer
+- `body` Buffer
+- `wmid` String
+- `password` String
 
 Description.
 
-### .toFile(fileName)
+### .exponent
+
+Exponent component of the key.
+
+### .modulus
+
+Modulus component of the key.
+
+## Class Signer
 
 Description.
