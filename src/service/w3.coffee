@@ -16,7 +16,7 @@ XML = require('../../../xml-objects').XML
 BaseService = require('./base')
 Signer = require('../signer')
 
-filters = require('../../../../silentpay/api/src/filter/body-parser')
+filters = require('../../../../silentpay/core/src/filter/body-parser')
 
 # WebMoney w3 service
 
