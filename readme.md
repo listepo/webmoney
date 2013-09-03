@@ -23,6 +23,12 @@ Description.
 
 Description.
 
+### ::constructor(exponent, modulus)
+- `exponent` Buffer
+- `modulus` Buffer
+
+Description.
+
 ### .exponent
 
 Exponent component of the key.
@@ -32,5 +38,10 @@ Exponent component of the key.
 Modulus component of the key.
 
 ## Class Signer
+
+Description.
+
+### ::constructor(key)
+- `key` Key
 
 Description.
