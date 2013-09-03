@@ -45,3 +45,7 @@ Description.
 - `key` Key
 
 Description.
+
+### .digest(message)
+
+Description.
