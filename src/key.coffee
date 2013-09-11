@@ -1,4 +1,4 @@
-# WebMoney key
+# WebMoney key for classic authorization
 #
 # September, 2013 year
 #
