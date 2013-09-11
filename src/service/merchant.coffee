@@ -1,6 +1,6 @@
 # WebMoney merchant service
 #
-# August, 2013 year
+# September, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -96,19 +96,19 @@ class MerchantService extends BaseService
 	#
 
 	_prepare: (options) ->
-		envelope = wmid: @wmid, sign: '12345'
-		extend(envelope, options.data)
+		content = wmid: @wmid, sign: '12345'
+		extend(content, options.data)
 
-		'merchant.request': envelope
+		'merchant.request': content
 
 	#
 
 	_prepare: (options) ->
-		envelope =
+		content =
 			signtags: wmid: @wmid, sign: '12345'
 			paymenttags: options.data
 
-		'merchant.request': envelope
+		'merchant.request': content
 
 # Exported objects
 
