@@ -9,7 +9,7 @@
 		"url": "https://github.com/silentpay/webmoney.git"
 	},
 	"dependencies": {
-		"http-filters": "0.x",
+		"http-helpers": "0.x",
 		"xml-objects": "0.x",
 		"bignum": "0.x"
 	},
