@@ -49,3 +49,11 @@ Description.
 ### .digest(message)
 
 Description.
+
+## Class W3Service
+
+Description.
+
+## Class MerchantService
+
+Description.
