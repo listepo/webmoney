@@ -1,6 +1,6 @@
 {
 	"name": "webmoney",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Client for WebMoney",
 	"keywords": ["webmoney", "money", "payment"],
 	"main": "./lib/index",
@@ -9,8 +9,8 @@
 		"url": "https://github.com/silentpay/webmoney.git"
 	},
 	"dependencies": {
+		"http-filters": "0.x",
 		"xml-objects": "0.x",
-		"iconv-lite": "0.x",
 		"bignum": "0.x"
 	},
 	"devDependencies": {
