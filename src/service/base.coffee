@@ -9,8 +9,11 @@
 # Required modules
 
 https = require('https')
-iconv = require('iconv-lite')
-XML = require('xml-objects').XML
+
+XML = require('../../../xml-objects').XML
+filters = require('../../../../http-filters')
+filters.SERIALIZERS['application/xml'] = (data) -> XML.stringify(data)
+filters.PARSERS['text/xml'] = (body) -> XML.parse(body)
 
 # Разделить
 # - авторизацию (Classic, Light), список полей для подписи
@@ -22,6 +25,62 @@ class BaseService
 	# Default port for requests
 
 	@DEFAULT_PORT: 443
+
+	#
+
+	_fieldValue: (object, path) ->
+		result = object
+
+		result = result[key] for key in path.split('.')
+
+		result
+
+	#
+
+	_signString: (envelope, order) ->
+		result = []
+
+		result.push(@_fieldValue(envelope, path)) for path in order
+
+		result.join('')
+
+	#
+
+	invoke: (method, data, callback) ->
+		methodDef = @constructor.METHODS[method]
+
+		envelope = @_prepareClassic(data: data, container: methodDef.container, order: methodDef.order)
+
+		[body, headers] = filters.serialize(envelope, 'application/xml')
+
+		path = @_pathClassic(method: method)
+
+		request = https.request(host: @host, port: @port, method: 'POST', path: path, headers: headers, rejectUnauthorized: false)
+
+		request.on('response', (response) =>
+			filters.concat(response, (error, data) =>
+				#console.log response.headers
+
+				console.log @_unprepare(filters.parse(response.headers, data))
+
+				undefined
+			)
+		)
+
+		request.on('error', (error) ->
+			# Error handling
+
+			callback?(error)
+
+			undefined
+		)
+
+		console.log data
+		console.log ''
+
+		request.end(body)
+
+		@
 
 # Exported objects
 

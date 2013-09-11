@@ -1,6 +1,6 @@
 # WebMoney w3 service
 #
-# August, 2013 year
+# September, 2013 year
 #
 # Author - Vladimir Andreev
 #
@@ -10,13 +10,8 @@
 
 # Required modules
 
-https = require('https')
-iconv = require('iconv-lite')
-XML = require('../../../xml-objects').XML
 BaseService = require('./base')
 Signer = require('../signer')
-
-filters = require('../../../../silentpay/core/src/filter/body-parser')
 
 # WebMoney w3 service
 
@@ -149,38 +144,6 @@ class W3Service extends BaseService
 	constructor: (@wmid, @key, @host = @constructor.CLASSIC_HOST, @port = @constructor.DEFAULT_PORT) ->
 		@signer = new Signer(@key)
 
-	#
-
-	fieldValue = (object, path) ->
-		result = object
-
-		result = result[key] for key in path.split('.')
-
-		result
-
-	#
-
-	signString = (envelope, order) ->
-		result = []
-
-		result.push(fieldValue(envelope, path)) for path in order
-
-		result.join('')
-
-	#
-
-	_serialize: (envelope) ->
-		charset = 'utf-8'
-
-		body = iconv.encode(XML.stringify(envelope), charset)
-
-		[body, 'Content-Type': 'application/xml; charset=' + charset, 'Content-Length': body.length]
-
-	#
-
-	_parse: (headers, body) ->
-		XML.parse(iconv.decode(body, 'utf-8'))
-
 	# Returns URL path for given method
 
 	_pathClassic: (options) -> '/asp/XML' + options.method + '.asp'
@@ -194,7 +157,7 @@ class W3Service extends BaseService
 	_prepareClassic: (options) ->
 		content = reqn: 3, wmid: @wmid
 		content[options.container] = options.data
-		content.sign = @signer.digest(signString(content, options.order))
+		content.sign = @signer.digest(@_signString(content, options.order))
 
 		'w3s.request': content
 
@@ -210,44 +173,6 @@ class W3Service extends BaseService
 
 	_unprepare: (envelope) ->
 		envelope['w3s.response']
-
-	#
-
-	invoke: (method, data, callback) ->
-		methodDef = @constructor.METHODS[method]
-
-		envelope = @_prepareClassic(data: data, container: methodDef.container, order: methodDef.order)
-
-		[body, headers] = @_serialize(envelope)
-
-		path = @_pathClassic(method: method)
-
-		request = https.request(host: @host, port: @port, method: 'POST', path: path, headers: headers, rejectUnauthorized: false)
-
-		request.on('response', (response) =>
-			filters.concat(response, (error, data) =>
-				#console.log response.headers
-
-				console.log @_unprepare(@_parse(response.headers, data))
-
-				undefined
-			)
-		)
-
-		request.on('error', (error) ->
-			# Error handling
-
-			callback?(error)
-
-			undefined
-		)
-
-		console.log data
-		console.log ''
-
-		request.end(body)
-
-		@
 
 # Exported objects
 
