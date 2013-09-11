@@ -1,4 +1,4 @@
-# WebMoney signer
+# WebMoney signer for classic authorization
 #
 # September, 2013 year
 #
@@ -22,11 +22,10 @@ DEBUG = false
 #
 
 INT16_SIZE = 2
-DATA_LENGTH_SIZE = 2
-HASH_START = DATA_LENGTH_SIZE
+HASH_START = INT16_SIZE
 RANDOM_SIZE = 40
 
-#
+# Signer class
 
 class Signer
 	# Object constructor
@@ -43,7 +42,7 @@ class Signer
 		hash = crypto.createHash('md4').update(message).digest()
 		random = crypto.randomBytes(RANDOM_SIZE) unless DEBUG
 
-		# Create blob buffer and fill it with required data
+		# Create blob and fill it with required data
 
 		actualSize = hash.length + RANDOM_SIZE
 
