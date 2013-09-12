@@ -15,11 +15,7 @@ BigNum = require('bignum')
 #
 # BigNum is very unstable and should be replaced by another library
 
-# Turn off or turn on generation of random data in signature
-
-DEBUG = false
-
-#
+# Constants for signature layout
 
 INT16_SIZE = 2
 HASH_START = INT16_SIZE
@@ -28,11 +24,17 @@ RANDOM_SIZE = 40
 # Signer class
 
 class Signer
+	# Turns off or turns on generation of random data in signature
+
+	@DEBUG: false
+
 	# Object constructor
 
-	constructor: (key) ->
+	constructor: (key, debug = @constructor.DEBUG) ->
 		@_exponent = BigNum.fromBuffer(key.exponent, endian: 'little', size: 'auto')
 		@_modulus = BigNum.fromBuffer(key.modulus, endian: 'little', size: 'auto')
+
+		@_debug = debug
 
 	# Returns digest of provided message
 
@@ -40,7 +42,7 @@ class Signer
 		# Generate hash from provided message and some random data
 
 		hash = crypto.createHash('md4').update(message).digest()
-		random = crypto.randomBytes(RANDOM_SIZE) unless DEBUG
+		random = crypto.randomBytes(RANDOM_SIZE) unless @_debug
 
 		# Create blob and fill it with required data
 
@@ -51,7 +53,7 @@ class Signer
 
 		hash.copy(blob, HASH_START)
 
-		unless DEBUG then random.copy(blob, HASH_START + hash.length) else blob.fill(0, HASH_START + hash.length)
+		unless @_debug then random.copy(blob, HASH_START + hash.length) else blob.fill(0, HASH_START + hash.length)
 
 		# Encrypt blob with RSA using known exponent and modulus
 
