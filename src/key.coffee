@@ -117,7 +117,12 @@ class Key
 	
 	# Object constructor
 
-	constructor: (@exponent, @modulus) ->
+	constructor: (exponent, modulus) ->
+		throw new TypeError('Exponent can\'t be null or undefined') unless exponent?
+		throw new TypeError('Modulus can\'t be null or undefined') unless modulus?
+
+		@exponent = exponent
+		@modulus = modulus
 
 # Exported objects
 
