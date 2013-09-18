@@ -11,7 +11,8 @@
 https = require('https')
 
 XML = require('../../../xml-objects').XML
-filters = require('../../../../http-filters')
+filters = require('../../../../http-helpers')
+filters.patch()
 filters.SERIALIZERS['application/xml'] = (data) -> XML.stringify(data)
 filters.PARSERS['text/xml'] = (body) -> XML.parse(body)
 
@@ -25,6 +26,15 @@ class BaseService
 	# Default port for requests
 
 	@DEFAULT_PORT: 443
+
+	# Object constructor
+
+	constructor: (host, port = @constructor.DEFAULT_PORT) ->
+		throw new Error('Host should be a string') if typeof host isnt 'string'
+		throw new Error('Port should be a number') if typeof port isnt 'number'
+
+		@host = host
+		@port = port
 
 	#
 
@@ -58,7 +68,7 @@ class BaseService
 		request = https.request(host: @host, port: @port, method: 'POST', path: path, headers: headers, rejectUnauthorized: false)
 
 		request.on('response', (response) =>
-			filters.concat(response, (error, data) =>
+			response.readAll((error, data) =>
 				#console.log response.headers
 
 				console.log @_unprepare(filters.parse(response.headers, data))

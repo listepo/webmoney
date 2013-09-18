@@ -6,109 +6,65 @@
 #
 # E-Mail: volodya@netfolder.ru
 
-# Supported interfaces: X18, X20 - X22
-
 # Required modules
 
 BaseService = require('./base')
+Signer = require('../signer')
 
-# WebMoney merchant service
+#
+
+class MerchantEnvelope1
+	#
+
+	@CLASSIC_HOST: 'merchant.webmoney.ru'	# Host for classic authorization
+	@LIGHT_HOST: 'merchant.wmtransfer.com'	# Host for light authorization
+
+	#
+
+	_prepare: (options) ->
+		content = wmid: @wmid
+		extend(content, options.data)
+
+		content.sign = '12345'
+		#content.secret_key = '12345'
+		#content.md5 = '12345'
+
+		'merchant.request': content
+
+#
+
+class MerchantEnvelope2
+	# Default host for requests
+
+	@DEFAULT_HOST: 'merchant.webmoney.ru'
+
+	#
+
+	_prepare: (options) ->
+		content = signtags: wmid: @wmid
+		content[options.container] = options.data
+
+		content.signtags.sign = '12345'
+		#content.signtags.secret_key = '12345'
+		#content.signtags.md5 = '12345'
+
+		'merchant.request': content
+
+# Merchant service
 
 class MerchantService extends BaseService
 	# Default hosts for requests
 
-	@DEFAULT_HOST: 'merchant.webmoney.ru'	# Host for md5 hash and secret key auth
-	@CLASIC_HOST: 'merchant.webmoney.ru'	# Host for classic auth
-	@LIGHT_HOST: 'merchant.wmtransfer.com'	# Host for light auth
+	
 
-	# Method definitions
+	# Object constructor
 
-	@METHODS:
-		TransGet:
-			sign: true
-			md5: true
-			secret: true
-			order: [
-				'wmid'
-				'lmi_payee_purse'
-				'lmi_payment_no'
-			]
-		TransRequest:
-			sign: true
-			md5: true
-			secret: true
-			json: true
-			order: [
-				'wmid'
-				'lmi_payee_purse'
-				'lmi_payment_no'
-				'lmi_clientnumber'
-				'lmi_clientnumber_type'
-			]
-		TransConfirm:
-			sign: true
-			md5: true
-			secret: true
-			json: true
-			order: [
-				'wmid'
-				'lmi_payee_purse'
-				'lmi_wminvoiceid'
-				'lmi_clientnumber_code'
-			]
-		TrustRequest:
-			sign: true
-			light: true
-			order: [
-				'wmid'
-				'lmi_payee_purse'
-				'lmi_clientnumber'
-				'lmi_clientnumber_type'
-				'lmi_sms_type'
-			]
-		TrustConfirm:
-			sign: true
-			light: true
-			order: [
-				'wmid'
-				'lmi_purseid'
-				'lmi_clientnumber_code'
-			]
-		TransSave:
-			sign: true
-			md5: true
-			secret: true
-			order: [
-				'wmid'
-				'lmi_payee_purse'
-				'lmi_payment_no'
-				'validityperiodinhours'
-			]
-
-	#
-
-	constructor: (host, port, cred) ->
+	constructor: (host, port) ->
+		super(host, port)
 
 	# Returns URL path for given method
 
 	_path: (options) -> '/conf/xml/XML' + options.method + '.asp'
-
-	#
-
-	_prepare: (options) ->
-		content = wmid: @wmid, sign: '12345'
-		extend(content, options.data)
-
-		'merchant.request': content
-
-	#
-
-	_prepare: (options) ->
-		content =
-			signtags: wmid: @wmid, sign: '12345'
-			paymenttags: options.data
-
-		'merchant.request': content
 
 # Exported objects
 
