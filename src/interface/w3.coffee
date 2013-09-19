@@ -91,7 +91,7 @@ W3Interface =
 
 	# X2
 
-	createPayment:
+	createOperation:
 		path: 'Trans'
 		request: 'trans'
 		order: [
@@ -99,6 +99,30 @@ W3Interface =
 			'trans.amount', 'trans.period', 'trans.pcode'
 			'trans.desc', 'trans.wminvid'
 		]
+		response: 'operation'
+
+	# X5
+
+	finishOperation:
+		path: 'FinishProtect'
+		request: 'finishprotect'
+		order: ['finishprotect.wmtranid', 'finishprotect.pcode', 'reqn']
+		response: 'operation'
+
+	# X13
+
+	rejectOperation:
+		path: 'RejectProtect'
+		request: 'rejectprotect'
+		order: ['rejectprotect.wmtranid', 'reqn']
+		response: 'operation'
+
+	# X14
+
+	reverseOperation:
+		path: 'TransMoneyback'
+		request: 'trans'
+		order: ['reqn', 'trans.inwmtranid', 'trans.amount']
 		response: 'operation'
 
 	# X3
@@ -109,30 +133,6 @@ W3Interface =
 		order: ['getoperations.purse', 'reqn']
 		response: 'operations'
 
-	# X5
-
-	finishProtect:
-		path: 'FinishProtect'
-		request: 'finishprotect'
-		order: ['finishprotect.wmtranid', 'finishprotect.pcode', 'reqn']
-		response: 'operation'
-
-	# X13
-
-	rejectProtect:
-		path: 'RejectProtect'
-		request: 'rejectprotect'
-		order: ['rejectprotect.wmtranid', 'reqn']
-		response: 'operation'
-
-	# X14
-
-	TransMoneyback:
-		path: 'TransMoneyback'
-		request: 'trans'
-		order: ['reqn', 'trans.inwmtranid', 'trans.amount']
-		response: 'operation'
-
 	# X16
 
 	createPurse:
@@ -141,6 +141,14 @@ W3Interface =
 		order: ['createpurse.wmid', 'createpurse.pursetype', 'reqn']
 		response: 'purse'
 
+	# X8
+
+	testPurse:
+		path: 'FindWMPurseNew'
+		request: 'testwmpurse'
+		order: ['testwmpurse.wmid', 'testwmpurse.purse']
+		response: 'testwmpurse'
+
 	# X9
 
 	purses:
@@ -148,13 +156,6 @@ W3Interface =
 		request: 'getpurses'
 		order: ['getpurses.wmid', 'reqn']
 		response: 'purses'
-
-	# X8
-
-	FindWMPurseNew:
-		request: 'testwmpurse'
-		order: ['testwmpurse.wmid', 'testwmpurse.purse']
-		response: 'testwmpurse'
 
 	# X6
 
