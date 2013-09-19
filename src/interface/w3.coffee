@@ -61,133 +61,151 @@ W3Interface =
 	# X1
 
 	createInvoice:
-		path: 'Invoice'
-		request: 'invoice'
-		order: [
-			'invoice.orderid', 'invoice.customerwmid', 'invoice.storepurse'
-			'invoice.amount', 'invoice.desc', 'invoice.address'
-			'invoice.period', 'invoice.expiration', 'reqn'
-		]
-		response: 'invoice'
+		name: 'Invoice'
+		input:
+			container: 'invoice'
+			order: [
+				'invoice.orderid', 'invoice.customerwmid', 'invoice.storepurse'
+				'invoice.amount', 'invoice.desc', 'invoice.address'
+				'invoice.period', 'invoice.expiration', 'reqn'
+			]
+		output: container: 'invoice'
 
 	# X4
 
 	outInvoices:
-		path: 'OutInvoices'
-		request: 'getoutinvoices'
-		order: ['getoutinvoices.purse', 'reqn']
-		response: 'outinvoices'
+		name: 'OutInvoices'
+		input:
+			container: 'getoutinvoices'
+			order: ['getoutinvoices.purse', 'reqn']
+		output: container: 'outinvoices'
 
 	# X10
 
 	inInvoices:
-		path: 'InInvoices'
-		request: 'getininvoices'
-		order: [
-			'getininvoices.wmid', 'getininvoices.wminvid'
-			'getininvoices.datestart', 'getininvoices.datefinish', 'reqn'
-		]
-		response: 'ininvoices'
+		name: 'InInvoices'
+		input:
+			container: 'getininvoices'
+			order: [
+				'getininvoices.wmid', 'getininvoices.wminvid'
+				'getininvoices.datestart', 'getininvoices.datefinish', 'reqn'
+			]
+		output: container: 'ininvoices'
 
 	# X2
 
 	createOperation:
-		path: 'Trans'
-		request: 'trans'
-		order: [
-			'reqn', 'trans.tranid', 'trans.pursesrc', 'trans.pursedest'
-			'trans.amount', 'trans.period', 'trans.pcode'
-			'trans.desc', 'trans.wminvid'
-		]
-		response: 'operation'
+		name: 'Trans'
+		input:
+			container: 'trans'
+			order: [
+				'reqn', 'trans.tranid', 'trans.pursesrc', 'trans.pursedest'
+				'trans.amount', 'trans.period', 'trans.pcode'
+				'trans.desc', 'trans.wminvid'
+			]
+		output: container: 'operation'
 
 	# X5
 
 	finishOperation:
-		path: 'FinishProtect'
-		request: 'finishprotect'
-		order: ['finishprotect.wmtranid', 'finishprotect.pcode', 'reqn']
-		response: 'operation'
+		name: 'FinishProtect'
+		input:
+			container: 'finishprotect'
+			order: ['finishprotect.wmtranid', 'finishprotect.pcode', 'reqn']
+		output: container: 'operation'
 
 	# X13
 
 	rejectOperation:
-		path: 'RejectProtect'
-		request: 'rejectprotect'
-		order: ['rejectprotect.wmtranid', 'reqn']
-		response: 'operation'
+		name: 'RejectProtect'
+		input:
+			container: 'rejectprotect'
+			order: ['rejectprotect.wmtranid', 'reqn']
+		output: container: 'operation'
 
 	# X14
 
 	reverseOperation:
-		path: 'TransMoneyback'
-		request: 'trans'
-		order: ['reqn', 'trans.inwmtranid', 'trans.amount']
-		response: 'operation'
+		name: 'TransMoneyback'
+		input:
+			container: 'trans'
+			order: ['reqn', 'trans.inwmtranid', 'trans.amount']
+		output: container: 'operation'
 
 	# X3
 
 	operations:
-		path: 'Operations'
-		request: 'getoperations'
-		order: ['getoperations.purse', 'reqn']
-		response: 'operations'
+		name: 'Operations'
+		input:
+			container: 'getoperations'
+			order: ['getoperations.purse', 'reqn']
+		output: container: 'operations'
 
 	# X16
 
 	createPurse:
-		path: 'CreatePurse'
-		request: 'createpurse'
-		order: ['createpurse.wmid', 'createpurse.pursetype', 'reqn']
-		response: 'purse'
+		name: 'CreatePurse'
+		input:
+			container: 'createpurse'
+			order: ['createpurse.wmid', 'createpurse.pursetype', 'reqn']
+		output: container: 'purse'
 
 	# X8
 
 	testPurse:
-		path: 'FindWMPurseNew'
-		request: 'testwmpurse'
-		order: ['testwmpurse.wmid', 'testwmpurse.purse']
-		response: 'testwmpurse'
+		name: 'FindWMPurseNew'
+		input:
+			container: 'testwmpurse'
+			order: ['testwmpurse.wmid', 'testwmpurse.purse']
+		output: container: 'testwmpurse'
 
 	# X9
 
 	purses:
-		path: 'Purses'
-		request: 'getpurses'
-		order: ['getpurses.wmid', 'reqn']
-		response: 'purses'
+		name: 'Purses'
+		input:
+			container: 'getpurses'
+			order: ['getpurses.wmid', 'reqn']
+		output: container: 'purses'
 
 	# X6
 
 	sendMessage:
-		path: 'SendMsg'
-		request: 'message'
-		order: [
-			'message.receiverwmid', 'reqn'
-			'message.msgtext', 'message.msgsubj'
-		]
-		response: 'message'
+		name: 'SendMsg'
+		input:
+			container: 'message'
+			order: [
+				'message.receiverwmid', 'reqn'
+				'message.msgtext', 'message.msgsubj'
+			]
+		output: container: 'message'
 
 	# X15-1
 
 	TrustList:
-		request: 'gettrustlist'
-		order: ['gettrustlist.wmid', 'reqn']
-		response: 'trustlist'
+		name: 'TrustList'
+		input:
+			container: 'gettrustlist'
+			order: ['gettrustlist.wmid', 'reqn']
+		output: container: 'trustlist'
 
 	# X15-2
 
 	TrustList2:
-		request: 'gettrustlist'
-		order: ['gettrustlist.wmid', 'reqn']
-		response: 'trustlist'
+		name: 'TrustList2'
+		input:
+			container: 'gettrustlist'
+			order: ['gettrustlist.wmid', 'reqn']
+		output: container: 'trustlist'
 
 	# X15-3
 
 	TrustSave2:
-		request: 'trust'
-		order: ['wmid', 'trust.purse', 'trust.masterwmid', 'reqn']
-		response: 'trust'
+		name: 'TrustSave2'
+		input:
+			container: 'trust'
+			order: ['wmid', 'trust.purse', 'trust.masterwmid', 'reqn']
+		output: container: 'trust'
 
 # Exported objects
 
