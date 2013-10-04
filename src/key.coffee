@@ -1,10 +1,4 @@
-# WebMoney key for classic authorization
-#
-# September, 2013 year
-#
-# Author - Vladimir Andreev
-#
-# E-Mail: volodya@netfolder.ru
+# Copyright QuickSoft LLC
 
 # Required modules
 
