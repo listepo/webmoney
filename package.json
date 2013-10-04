@@ -3,7 +3,7 @@
 	"version": "0.1.1",
 	"description": "Client for WebMoney",
 	"keywords": ["webmoney", "money", "payment"],
-	"main": "./lib/index",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/silentpay/webmoney.git"
@@ -11,11 +11,13 @@
 	"dependencies": {
 		"http-helpers": "0.x",
 		"xml-objects": "0.x",
-		"bignum": "0.x"
+		"bignum": "0.x",
+		"extend": "1.x"
 	},
 	"devDependencies": {
 		"coffee-script": "1.x"
 	},
+	"main": "./lib/index",
 	"scripts": {
 		"prepublish": "./node_modules/.bin/coffee -c -b -o lib src"
 	},
