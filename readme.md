@@ -2,6 +2,12 @@
 
 _webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
 
+# Installation
+
+```
+$ npm install webmoney
+```
+
 # API
 
 ## Class Key
@@ -47,13 +53,5 @@ Description.
 Description.
 
 ### .digest(message)
-
-Description.
-
-## Class W3Service
-
-Description.
-
-## Class MerchantService
 
 Description.
