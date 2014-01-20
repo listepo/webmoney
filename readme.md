@@ -1,27 +1,31 @@
 # WebMoney
 
-_webmoney_ provides you with easy and nice interface in order to access WebMoney payment system.
+Easy and lightweight client for WebMoney payment system.
 
-# Installation
+## Features
+
+- Supports both classic and light authorization
+
+## Installation
 
 ```
 $ npm install webmoney
 ```
 
-# API
+## API
 
-## Class Key
+### Class Key
 
 This class provides ability to decode and encode keys for classic authorization.
 
-### ::fromFile(fileName, wmid, password)
+#### ::fromFile(fileName, wmid, password)
 - `fileName` String
 - `wmid` String
 - `password` String
 
 Description.
 
-### ::fromBuffer(header, body, wmid, password)
+#### ::fromBuffer(header, body, wmid, password)
 - `header` Buffer
 - `body` Buffer
 - `wmid` String
@@ -29,29 +33,29 @@ Description.
 
 Description.
 
-### ::constructor(exponent, modulus)
+#### ::constructor(exponent, modulus)
 - `exponent` Buffer
 - `modulus` Buffer
 
 Description.
 
-### .exponent
+#### .exponent
 
 Exponent component of the key.
 
-### .modulus
+#### .modulus
 
 Modulus component of the key.
 
-## Class Signer
+### Class Signer
 
 Description.
 
-### ::constructor(key)
+#### ::constructor(key)
 - `key` Key
 
 Description.
 
-### .digest(message)
+#### .digest(message)
 
 Description.
