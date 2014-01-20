@@ -53,7 +53,7 @@ class Signer
 
 		blobNumber = BigNum.fromBuffer(blob, endian: 'little', size: 'auto')
 		signNumber = blobNumber.powm(@_exponent, @_modulus)
-		
+
 		Array::reverse.call(signNumber.toBuffer(endian: 'little', size: 2)).toString('hex')
 
 # Exported objects

@@ -38,59 +38,41 @@ class BaseService
 
 	#
 
-	_fieldValue: (object, path) ->
-		result = object
+	invoke: (method, input, callback) ->
+		envelope = @_prepare(output, definition)
 
-		result = result[key] for key in path.split('.')
-
-		result
-
-	#
-
-	_signString: (envelope, order) ->
-		result = []
-
-		result.push(@_fieldValue(envelope, path)) for path in order
-
-		result.join('')
-
-	#
-
-	invoke: (method, data, callback) ->
-		methodDef = @constructor.METHODS[method]
-
-		envelope = @_prepareClassic(data: data, container: methodDef.container, order: methodDef.order)
-
-		[body, headers] = filters.serialize(envelope, 'application/xml')
-
-		path = @_pathClassic(method: method)
-
-		request = https.request(host: @host, port: @port, method: 'POST', path: path, headers: headers, rejectUnauthorized: false)
+		request = https.request(@_makeOptions(definition))
 
 		request.on('response', (response) =>
 			response.readAll((error, data) =>
-				#console.log response.headers
+				data = @_unprepare(filters.parse(response.headers, data))
 
-				console.log @_unprepare(filters.parse(response.headers, data))
+				callback?(null, data)
 
 				undefined
 			)
+
+			undefined
 		)
 
 		request.on('error', (error) ->
-			# Error handling
-
 			callback?(error)
 
 			undefined
 		)
 
-		console.log data
-		console.log ''
-
-		request.end(body)
+		request.sendXML(envelope)
 
 		@
+
+	#
+
+	@createService: (intf) ->
+
+	# Creates implementation for provided method definition
+
+	@createMethod: (definition) ->
+		(output, callback) -> @invoke(definition, output, callback)
 
 # Exported objects
 

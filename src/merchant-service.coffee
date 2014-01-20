@@ -53,10 +53,6 @@ class MerchantEnvelope2
 # Merchant service
 
 class MerchantService extends BaseService
-	# Default hosts for requests
-
-	
-
 	# Object constructor
 
 	constructor: (host, port) ->

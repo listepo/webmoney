@@ -1,0 +1,120 @@
+# Copyright QuickSoft LLC
+
+# Required modules
+
+Service = require('./base')
+Signer = require('../signer')
+
+#
+
+class Envelope
+	#
+
+	constructor: () ->
+		@nextNumber = 1
+
+	#
+
+	generateNumber: () -> @nextNumber++
+
+	#
+
+	_unprepare: (envelope) ->
+		envelope['w3s.response']
+
+#
+
+class ClassicService extends Binding
+	# Default host for requests
+
+	@DEFAULT_HOST: 'w3s.webmoney.ru'
+
+	#
+
+	constructor: (wmid, key) ->
+		@wmid = wmid
+		@key = key
+
+	#
+
+	_fieldValue: (object, path) ->
+		result = object
+
+		result = result[key] for key in path.split('.')
+
+		result
+
+	#
+
+	_concatString: (envelope, order) ->
+		result = []
+
+		result.push(@_fieldValue(envelope, path)) for path in order
+
+		result.join('')
+
+	#
+
+	_makeOptions: (method) ->
+		host: @host, port: @port
+		method: 'POST', path: '/asp/XML' + method.name + '.asp'
+
+	# Returns data prepared for sending to the server
+
+	_prepare: (output, method) ->
+		content = wmid: @wmid, reqn: @generateNumber()
+		content[method.input.container] = input
+		content.sign = @signer.digest(@_concatString(content, method.input.order))
+
+		'w3s.request': content
+
+#
+
+class LightService extends BaseService
+	# Default host for requests
+
+	@DEFAULT_HOST: 'w3s.wmtransfer.com'
+
+	#
+
+	_makeOptions: (method) ->
+		host: @host, port: @port
+		method: 'POST', path: '/asp/XML' + method.name + 'Cert.asp',
+		cert: @cert
+
+	#
+	
+	_prepare: (method, input) ->
+		content = reqn: @generateNumber()
+		content[method.input.container] = input
+
+		'w3s.request': content
+
+#
+
+class W3Service extends Service
+	#
+
+	createInvoice: @createMethod(W3Interface.createInvoice)
+
+	#
+
+	outInvoices: @createMethod(W3Interface.outInvoices)
+
+#
+
+W3Service = Service.implement(W3Interface)
+W3Service = Service.fromInterface(W3Interface)
+W3Service = Service.buildFrom(W3Interface)
+
+service = new W3Service.Classic(wmid, key)
+service = new W3Service.Light(cert)
+
+service.outInvoices(data, callback)
+
+# Exported objects
+
+module.exports =
+	Classic: new ClassicBinding(W3Interface)
+	Light: new LightBinding(W3Interface)
+

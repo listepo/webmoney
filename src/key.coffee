@@ -2,8 +2,8 @@
 
 # Required modules
 
-fs = require('fs')
-crypto = require('crypto')
+FS = require('fs')
+Crypto = require('crypto')
 
 # Constants for header
 
@@ -27,7 +27,7 @@ class Key
 	decryptKeys = (keys, wmid, password) ->
 		# Digest to be used as key during decryption
 		
-		digest = crypto.createHash('md4').update(wmid).update(password).digest()
+		digest = Crypto.createHash('md4').update(wmid).update(password).digest()
 
 		# Make simple XOR decryption
 
@@ -48,7 +48,7 @@ class Key
 		
 		# Calculate actual CRC
 
-		crypto.createHash('md4').update(header).update(data).digest('hex') is crc
+		Crypto.createHash('md4').update(header).update(data).digest('hex') is crc
 
 	# Parses buffer with keys
 
